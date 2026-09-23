@@ -90,6 +90,12 @@ export default function SetlistDetail({ slug }: Props) {
 		title: "",
 		notes: "",
 	})
+	const sensors = useSensors(
+		useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+		useSensor(KeyboardSensor, {
+			coordinateGetter: sortableKeyboardCoordinates,
+		}),
+	)
 
 	useEffect(() => {
 		if (setlist && !editing) {
@@ -150,12 +156,6 @@ export default function SetlistDetail({ slug }: Props) {
 		: practiceSongs
 	const currentPracticeSong =
 		practiceIndex === null ? null : practiceSongs[practiceIndex]
-	const sensors = useSensors(
-		useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-		useSensor(KeyboardSensor, {
-			coordinateGetter: sortableKeyboardCoordinates,
-		}),
-	)
 
 	const handleDragStart = ({ active }: { active: { id: string | number } }) => {
 		setActiveSongId(String(active.id))
