@@ -1,3 +1,11 @@
+@font-face {
+	font-family: "Sen";
+	font-style: normal;
+	font-weight: 400 700;
+	font-display: swap;
+	src: url("/fonts/sen-latin.woff2") format("woff2");
+}
+
 :root {
 	--bg: #111111;
 	--fg: #eaeaf2;
@@ -37,7 +45,7 @@ body {
 body {
 	background-color: var(--bg);
 	color: var(--fg);
-	font-family: "Jost", system-ui, Avenir, Helvetica, Arial, sans-serif;
+	font-family: "Sen", system-ui, Avenir, Helvetica, Arial, sans-serif;
 	font-weight: 400;
 	line-height: 1.6;
 }
