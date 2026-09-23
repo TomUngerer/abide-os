@@ -1,0 +1,17 @@
+---
+import Layout from "../../layouts/Layout.astro"
+import ConvexApp from "../../components/app/ConvexClient"
+
+export function getStaticPaths() {
+	return [
+		{ params: { slug: "opening-night" } },
+		{ params: { slug: "club-echo" } },
+	]
+}
+
+const { slug } = Astro.params
+---
+
+<Layout>
+	<ConvexApp view="show" slug={slug} client:load />
+</Layout>

@@ -1,0 +1,37 @@
+---
+import Nav from "./Nav.astro"
+---
+
+<aside id="sidebar">
+	<Nav />
+</aside>
+
+<style>
+	#sidebar {
+		background-color: var(--bg);
+		border-right: 1px solid var(--fg);
+		width: 250px;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: 1rem 1rem 2rem;
+		transition: left 0.3s ease-in-out;
+		z-index: 100;
+	}
+
+	#sidebar.open {
+		left: 0;
+	}
+
+	@media screen and (max-width: 840px) {
+		#sidebar {
+			width: 300px;
+			left: -300px;
+		}
+	}
+</style>

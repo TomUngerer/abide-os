@@ -1,0 +1,25 @@
+---
+import Layout from "../../layouts/Layout.astro"
+import ConvexApp from "../../components/app/ConvexClient"
+
+export function getStaticPaths() {
+	return [
+		{ params: { slug: "lullaby-lullaby" } },
+		{ params: { slug: "forget-to-pretend" } },
+		{ params: { slug: "done" } },
+		{ params: { slug: "in-my-mind" } },
+		{ params: { slug: "click-boom" } },
+		{ params: { slug: "burn" } },
+		{ params: { slug: "metal-goat" } },
+		{ params: { slug: "question" } },
+		{ params: { slug: "whats-me" } },
+		{ params: { slug: "bloom" } },
+	]
+}
+
+const { slug } = Astro.params
+---
+
+<Layout>
+	<ConvexApp view="song" slug={slug} client:load />
+</Layout>

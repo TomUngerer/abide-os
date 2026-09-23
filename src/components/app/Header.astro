@@ -1,0 +1,71 @@
+---
+import icon from "../../assets/icon.svg"
+import Avatar from "./Avatar.astro"
+import Icon from "./Icon.astro"
+
+const { back } = Astro.props
+---
+
+<header id="header">
+	<div style="display: flex; align-items: center;">
+		<a href="/"
+			><img
+				class="icon"
+				src={icon.src}
+				alt="Moth Lake Records - EST. 2018"
+			/></a
+		>
+		{
+			back && (
+				<a href="javascript:history.back()" class="back" aria-label="Go back">
+					<Icon name="arrow-left" />
+				</a>
+			)
+		}
+	</div>
+	<!-- <Avatar name="AB" src={icon.src} size="34" /> -->
+	<Icon name="user" />
+</header>
+
+<style>
+	#header {
+		height: 60px;
+		background-color: var(--bg);
+		border-bottom: 1px solid var(--fg);
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		padding: 10px 2rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-left: 250px;
+	}
+
+	#header .icon {
+		display: none;
+		width: 40px;
+		height: 40px;
+	}
+
+	#header .back {
+		margin-left: 2rem;
+		color: var(--fg);
+		text-decoration: none;
+		font-size: 1.5rem;
+		font-weight: bold;
+	}
+
+	@media screen and (max-width: 840px) {
+		#header {
+			padding-left: 2rem;
+		}
+		#header .icon {
+			display: block;
+		}
+		#header .back {
+			display: none;
+		}
+	}
+</style>

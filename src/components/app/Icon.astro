@@ -1,0 +1,14 @@
+---
+import { getIcon } from "../../lib/icons"
+const { name } = Astro.props
+const icon = getIcon(name)
+---
+
+{icon ? <Fragment set:html={icon.html[0]} class="icon" /> : null}
+
+<style is:global>
+	.icon {
+		width: 1em;
+		height: 1em;
+	}
+</style>

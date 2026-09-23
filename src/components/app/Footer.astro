@@ -1,0 +1,103 @@
+---
+import Icon from "./Icon.astro"
+const pathname = new URL(Astro.request.url).pathname
+const currentPath = pathname.slice(1)
+---
+
+<footer id="footer">
+	<nav>
+		<ul>
+			<li>
+				<a
+					href="/"
+					class={currentPath === "" ? "active" : ""}
+					aria-label="Dashboard"><Icon name="home" /></a
+				>
+			</li>
+			<li>
+				<a
+					href="/songs"
+					class={currentPath.includes("songs") ? "active" : ""}
+					aria-label="Songs"><Icon name="music" /></a
+				>
+			</li>
+			<li>
+				<a
+					href="/setlists"
+					class={currentPath.includes("setlists") ? "active" : ""}
+					aria-label="Setlists"><Icon name="list" /></a
+				>
+			</li>
+			<li>
+				<a
+					href="/shows"
+					class={currentPath === "shows" ? "active" : ""}
+					aria-label="Shows"><Icon name="calendar" /></a
+				>
+			</li>
+		</ul>
+	</nav>
+</footer>
+
+<style>
+	#footer {
+		display: block;
+		position: fixed;
+		background-color: var(--bg);
+		padding: 1rem;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		border-top: 1px solid var(--fg);
+	}
+
+	nav {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		padding: 0 1.5rem;
+	}
+
+	ul {
+		display: flex;
+		justify-content: space-between;
+		gap: 1.5rem;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		width: 100%;
+	}
+
+	li {
+		margin: 0;
+	}
+
+	li a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--fg);
+		text-decoration: none;
+		height: 44px;
+		width: 44px;
+		border-radius: 50%;
+		border: 1px solid transparent;
+	}
+
+	li a:hover {
+		color: var(--bg);
+		background-color: var(--fg);
+	}
+
+	li a.active {
+		color: var(--bg);
+		background-color: var(--fg);
+	}
+
+	@media screen and (min-width: 840px) {
+		#footer {
+			display: none;
+		}
+	}
+</style>

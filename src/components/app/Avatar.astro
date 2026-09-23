@@ -1,0 +1,52 @@
+---
+const {
+	src,
+	name = "AB",
+	size = "36",
+	background = "var(--surface)",
+	color = "var(--fg)",
+} = Astro.props
+
+const initials = name
+	.split(" ")
+	.filter(Boolean)
+	.slice(0, 2)
+	.map((part: string[]) => part[0])
+	.join("")
+	.toUpperCase()
+---
+
+<div
+	class="avatar"
+	style={`--avatar-size: ${size}px; --avatar-bg: ${background}; --avatar-color: ${color};`}>
+	{src ? <img src={src} alt={name} /> : <span>{initials || "A"}</span>}
+</div>
+
+<style>
+	.avatar {
+		display: grid;
+		place-items: center;
+		width: var(--avatar-size);
+		height: var(--avatar-size);
+		border-radius: 50%;
+		overflow: hidden;
+		background: var(--avatar-bg);
+		border: 1px solid var(--border);
+		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+		flex-shrink: 0;
+	}
+
+	.avatar img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.avatar span {
+		color: var(--avatar-color);
+		font-size: 0.6rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+	}
+</style>
