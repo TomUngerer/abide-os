@@ -1,26 +1,10 @@
 ---
-import icon from "../../assets/icon.svg"
-import Icon from "./Icon.astro"
-
-const { back } = Astro.props
+import Logo from "./Logo.astro"
 ---
 
 <header id="header">
 	<div style="display: flex; align-items: center;">
-		<a href="/"
-			><img
-				class="icon"
-				src={icon.src}
-				alt="Moth Lake Records - EST. 2018"
-			/></a
-		>
-		{
-			back && (
-				<a href="javascript:history.back()" class="back" aria-label="Go back">
-					<Icon name="arrow-left" />
-				</a>
-			)
-		}
+		<div class="icon"><Logo /></div>
 	</div>
 	<!-- <Avatar name="AB" src={icon.src} size="34" /> -->
 	<div>
@@ -239,8 +223,8 @@ const { back } = Astro.props
 
 	#header .icon {
 		display: none;
-		width: 40px;
-		height: 40px;
+		width: 100px;
+		height: 68px;
 	}
 
 	#header .back {

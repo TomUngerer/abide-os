@@ -1,0 +1,40 @@
+---
+import { Image } from "astro:assets"
+import logo from "../../assets/logo.png"
+const { lang = "en", size = 175 } = Astro.props
+---
+
+<div class="logo-wrapper">
+	<a href={lang === "fr" ? "/fr/" : "/"}>
+		<Image
+			src={logo}
+			alt="abide"
+			width={size}
+			height={size * 0.3675}
+			class="logo"
+			loading="eager"
+			style={`width: ${size}px`}
+		/>
+	</a>
+</div>
+
+<style>
+	.logo-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		z-index: 1;
+		background: transparent;
+	}
+	.logo {
+		height: auto;
+		max-width: 100%;
+		margin: 1rem auto 1rem;
+		mix-blend-mode: difference;
+	}
+
+	.logo-wrapper.large .logo {
+		width: 250px;
+	}
+</style>
