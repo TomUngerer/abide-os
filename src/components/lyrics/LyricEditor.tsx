@@ -5,6 +5,7 @@ function LyricEditor({
 	sections,
 	onAddSection,
 	onAddLine,
+	onPasteLines,
 	onUpdateSectionTitle,
 	onUpdateLine,
 	onToggleSinger,
@@ -13,6 +14,11 @@ function LyricEditor({
 	sections: Section[]
 	onAddSection: () => void
 	onAddLine: (sectionIndex: number, lineIndex?: number) => void
+	onPasteLines: (
+		sectionIndex: number,
+		lineIndex: number,
+		text: string[],
+	) => void
 	onUpdateSectionTitle: (index: number, title: string) => void
 	onUpdateLine: (sectionIndex: number, lineIndex: number, text: string) => void
 	onToggleSinger: (
@@ -84,6 +90,22 @@ function LyricEditor({
 										data-lyric-section={sectionIndex}
 										data-lyric-line={lineIndex}
 										value={line.text}
+										onPaste={(event) => {
+											const pastedText = event.clipboardData.getData("text")
+											if (!pastedText.includes("\n")) return
+
+											event.preventDefault()
+											const start =
+												event.currentTarget.selectionStart ?? line.text.length
+											const end = event.currentTarget.selectionEnd ?? start
+											const nextText = `${line.text.slice(0, start)}${pastedText}${line.text.slice(end)}`
+											const pastedLines = nextText.split(/\r?\n/)
+											pendingFocus.current = {
+												sectionIndex,
+												lineIndex: lineIndex + pastedLines.length - 1,
+											}
+											onPasteLines(sectionIndex, lineIndex, pastedLines)
+										}}
 										onKeyDown={(event) => {
 											if (event.key !== "Enter") return
 

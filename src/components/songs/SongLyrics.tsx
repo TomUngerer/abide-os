@@ -118,6 +118,27 @@ function SongLyrics({
 		)
 	}
 
+	function pasteLines(sectionIndex: number, lineIndex: number, text: string[]) {
+		setDraft((current) =>
+			current.map((section, index) =>
+				index === sectionIndex
+					? {
+							...section,
+							lines: [
+								...section.lines.slice(0, lineIndex),
+								...text.map((lineText) => ({
+									text: lineText,
+									position: 0,
+									singers: section.lines[lineIndex].singers,
+								})),
+								...section.lines.slice(lineIndex + 1),
+							].map((line, position) => ({ ...line, position })),
+						}
+					: section,
+			),
+		)
+	}
+
 	function updateSectionTitle(index: number, title: string) {
 		setDraft((current) =>
 			current.map((section, sectionIndex) =>
@@ -270,6 +291,7 @@ function SongLyrics({
 					sections={draft}
 					onAddSection={addSection}
 					onAddLine={addLine}
+					onPasteLines={pasteLines}
 					onUpdateSectionTitle={updateSectionTitle}
 					onUpdateLine={updateLine}
 					onToggleSinger={toggleSinger}
