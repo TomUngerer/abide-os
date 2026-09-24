@@ -36,27 +36,27 @@ export default function ShowsListPage() {
 	}
 
 	const handleDeleteShow = async (showId: string, title: string) => {
-		if (!window.confirm(`Delete show “${title}”?`)) return
+		if (!window.confirm(`Supprimer le concert « ${title} » ?`)) return
 
 		await removeShow({ showId: showId as any })
 	}
 
 	if (shows === undefined || setlists === undefined) {
-		return <div className="page-empty">Loading shows…</div>
+		return <div className="page-empty">Chargement des concerts…</div>
 	}
 
 	return (
 		<div className="page">
 			<header className="page-header">
 				<div>
-					<h1>Shows</h1>
+					<h1>Concerts</h1>
 				</div>
-				<span className="page-count">{shows.length} shows</span>
+				<span className="page-count">{shows.length} concerts</span>
 			</header>
 
 			<form className="detail-grid detail-grid-edit" onSubmit={submit}>
 				<div className="detail-field">
-					<span>Show title</span>
+					<span>Nom du concert</span>
 					<input
 						value={title}
 						onChange={(event) => setTitle(event.target.value)}
@@ -73,7 +73,7 @@ export default function ShowsListPage() {
 					/>
 				</div>
 				<div className="detail-field">
-					<span>Venue</span>
+					<span>Lieu</span>
 					<input
 						value={venue}
 						onChange={(event) => setVenue(event.target.value)}
@@ -94,19 +94,19 @@ export default function ShowsListPage() {
 				</div>
 				<div className="detail-field detail-field-wide">
 					<button className="button" type="submit" disabled={saving}>
-						{saving ? "Saving…" : "Create show"}
+						{saving ? "Enregistrement…" : "Créer le concert"}
 					</button>
 				</div>
 			</form>
 
 			{shows.length === 0 ? (
-				<div className="page-empty">No shows have been added yet.</div>
+				<div className="page-empty">Aucun concert ajouté.</div>
 			) : (
 				<div className="songs-table shows-table">
 					<div className="songs-table-header">
-						<span>Show</span>
+						<span>Concert</span>
 						<span>Date</span>
-						<span>Venue</span>
+						<span>Lieu</span>
 						<span>Setlist</span>
 						<span>Action</span>
 					</div>
@@ -116,20 +116,20 @@ export default function ShowsListPage() {
 							<div className="song-table-row" key={show._id}>
 								<strong>{show.title}</strong>
 								<span>
-									{new Intl.DateTimeFormat("en-GB", {
+									{new Intl.DateTimeFormat("fr-FR", {
 										day: "numeric",
 										month: "short",
 										year: "numeric",
 									}).format(new Date(`${show.date}T12:00:00`))}
 								</span>
-								<span>{show.venue ?? "TBA"}</span>
+								<span>{show.venue ?? "À confirmer"}</span>
 								<span>{show.setlist?.title ?? "—"}</span>
 								<div className="table-actions">
 									<button
 										className="icon-button button-danger"
 										type="button"
-										aria-label={`Delete ${show.title}`}
-										title="Delete show"
+										aria-label={`Supprimer ${show.title}`}
+										title="Supprimer le concert"
 										onClick={() => handleDeleteShow(show._id, show.title)}>
 										<Icon name="trash" className="icon-button-icon" />
 									</button>

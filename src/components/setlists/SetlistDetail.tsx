@@ -63,12 +63,12 @@ function SortableSongRow({ row, index }: SortableSongRowProps) {
 			<button
 				className="setlist-drag-handle"
 				type="button"
-				aria-label={`Reorder ${row.song?.title ?? "song"}`}
+				aria-label={`Réordonner ${row.song?.title ?? "le morceau"}`}
 				{...listeners}>
 				⋮⋮
 			</button>
 			<strong>{index + 1}</strong>
-			<strong>{row.song?.title ?? "Unknown song"}</strong>
+			<strong>{row.song?.title ?? "Morceau inconnu"}</strong>
 		</div>
 	)
 }
@@ -110,20 +110,20 @@ export default function SetlistDetail({ slug }: Props) {
 	}, [setlist, editing])
 
 	if (setlist === undefined) {
-		return <div className="page-empty">Loading setlist…</div>
+		return <div className="page-empty">Chargement du setlist…</div>
 	}
 
 	if (setlist === null) {
 		return (
 			<div className="page">
 				<p className="eyebrow">404</p>
-				<h1>Setlist not found</h1>
+				<h1>Setlist introuvable</h1>
 			</div>
 		)
 	}
 
 	const handleDelete = async () => {
-		if (!window.confirm(`Delete setlist “${setlist.title}”?`)) return
+		if (!window.confirm(`Supprimer la setlist « ${setlist.title} » ?`)) return
 
 		setDeleting(true)
 		try {
@@ -236,21 +236,21 @@ export default function SetlistDetail({ slug }: Props) {
 					</div>
 					<div className="song-hero-copy">
 						<div className="eyebrow-row">
-							<span className="eyebrow">Setlist profile</span>
+							<span className="eyebrow">Fiche du setlist</span>
 							{!editing ? (
 								<button
 									className="icon-button"
 									type="button"
 									onClick={() => setEditing(true)}
-									aria-label="Edit setlist">
+									aria-label="Modifier la setlist">
 									<Icon name="edit" className="icon-button-icon" />
 								</button>
 							) : null}
 							<button
 								className="icon-button button-danger"
 								type="button"
-								aria-label={`Delete ${setlist.title}`}
-								title="Delete setlist"
+								aria-label={`Supprimer ${setlist.title}`}
+								title="Supprimer la setlist"
 								disabled={deleting}
 								onClick={handleDelete}>
 								<Icon name="trash" className="icon-button-icon" />
@@ -264,11 +264,11 @@ export default function SetlistDetail({ slug }: Props) {
 					<div className="song-meta-badges">
 						<span className="meta-pill">
 							{practiceSongs.length}{" "}
-							{practiceSongs.length === 1 ? "song" : "songs"}
+							{practiceSongs.length === 1 ? "morceau" : "morceaux"}
 						</span>
 						<span className="meta-pill">
-							Created{" "}
-							{new Intl.DateTimeFormat("en-GB", {
+							Créé le{" "}
+							{new Intl.DateTimeFormat("fr-FR", {
 								day: "numeric",
 								month: "short",
 								year: "numeric",
@@ -282,7 +282,9 @@ export default function SetlistDetail({ slug }: Props) {
 								type="button"
 								onClick={togglePractice}
 								disabled={editing || saving || deleting}>
-								{practiceIndex === null ? "Practice setlist" : "Exit practice"}
+								{practiceIndex === null
+									? "Répéter la setlist"
+									: "Quitter la répétition"}
 							</button>
 						)}
 					</div>
@@ -292,7 +294,7 @@ export default function SetlistDetail({ slug }: Props) {
 			{editing ? (
 				<form className="detail-grid detail-grid-edit" onSubmit={handleSave}>
 					<div className="detail-field">
-						<span>Title</span>
+						<span>Titre</span>
 						<input
 							value={draft.title}
 							onChange={(event) =>
@@ -321,7 +323,7 @@ export default function SetlistDetail({ slug }: Props) {
 
 					<div className="detail-field detail-field-wide">
 						<button className="button" type="submit" disabled={saving}>
-							{saving ? "Saving…" : "Save changes"}
+							{saving ? "Enregistrement…" : "Enregistrer les modifications"}
 						</button>
 					</div>
 				</form>
@@ -342,9 +344,9 @@ export default function SetlistDetail({ slug }: Props) {
 					onTouchEnd={handlePracticeTouchEnd}>
 					<div className="practice-panel-heading">
 						<div>
-							<span>Now practicing</span>
+							<span>Répétition en cours</span>
 							<strong>
-								{currentPracticeSong.song?.title ?? "Unknown song"}
+								{currentPracticeSong.song?.title ?? "Morceau inconnu"}
 							</strong>
 						</div>
 						<span>
@@ -354,14 +356,18 @@ export default function SetlistDetail({ slug }: Props) {
 							className="button button-secondary"
 							type="button"
 							onClick={togglePractice}>
-							Exit practice
+							Quitter la répétition
 						</button>
 					</div>
 
 					<div className="practice-song-meta">
 						<span>{currentPracticeSong.song?.bpm ?? "—"} BPM</span>
-						<span>{currentPracticeSong.song?.key ?? "Key unset"}</span>
-						<span>{currentPracticeSong.song?.tuning ?? "Tuning unset"}</span>
+						<span>
+							{currentPracticeSong.song?.key ?? "Tonalité non définie"}
+						</span>
+						<span>
+							{currentPracticeSong.song?.tuning ?? "Accordage non défini"}
+						</span>
 					</div>
 
 					<div className="practice-progress">
@@ -380,7 +386,7 @@ export default function SetlistDetail({ slug }: Props) {
 							onClick={() =>
 								setPracticeIndex((current) => Math.max(0, (current ?? 0) - 1))
 							}>
-							Previous song
+							Morceau précédent
 						</button>
 						<button
 							className="button"
@@ -391,7 +397,7 @@ export default function SetlistDetail({ slug }: Props) {
 									Math.min(practiceSongs.length - 1, (current ?? 0) + 1),
 								)
 							}>
-							Next song
+							Morceau suivant
 						</button>
 					</div>
 
@@ -412,7 +418,7 @@ export default function SetlistDetail({ slug }: Props) {
 					<div className="songs-table-header">
 						<span>Order</span>
 						<span>#</span>
-						<span>Song</span>
+						<span>Morceau</span>
 					</div>
 
 					<SortableContext
@@ -432,7 +438,7 @@ export default function SetlistDetail({ slug }: Props) {
 					{activeSongId ? (
 						<div className="setlist-drag-overlay">
 							{orderedSongs.find((row) => row.songId === activeSongId)?.song
-								?.title ?? "Song"}
+								?.title ?? "Morceau"}
 						</div>
 					) : null}
 				</DragOverlay>

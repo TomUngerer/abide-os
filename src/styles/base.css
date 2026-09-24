@@ -133,3 +133,15 @@ p {
 		scroll-behavior: auto !important;
 	}
 }
+
+.button.language-switch {
+	background: none;
+	border: 1px solid var(--fg);
+	cursor: pointer;
+	font-size: 1rem;
+	padding: 0.25em 0.5em;
+	color: var(--fg);
+}
+.language-switch:hover {
+	color: var(--muted);
+}

@@ -5,6 +5,7 @@ import SongDetail from "../songs/SongDetail"
 import SetlistsPage from "../setlists/SetlistsPage"
 import ShowsListPage from "../shows/ShowsListPage"
 import SetlistDetail from "../setlists/SetlistDetail"
+import TasksPage from "../tasks/TasksPage"
 
 const convexUrl = import.meta.env.VITE_CONVEX_URL
 
@@ -15,7 +16,7 @@ if (!convexUrl) {
 const convex = new ConvexReactClient(convexUrl)
 
 type Props = {
-	view: "dashboard" | "songs" | "song" | "shows" | "show" | "setlists"
+	view: "dashboard" | "songs" | "song" | "shows" | "show" | "setlists" | "tasks"
 	slug?: string
 }
 
@@ -35,6 +36,9 @@ function View({ view, slug }: Props) {
 
 		case "show":
 			return <SetlistDetail slug={slug ?? ""} />
+
+		case "tasks":
+			return <TasksPage />
 
 		default:
 			return <Dashboard />

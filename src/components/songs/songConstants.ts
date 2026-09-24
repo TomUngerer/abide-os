@@ -1,11 +1,11 @@
 export const statusLabels = {
-	unknown: "Unknown",
-	writing: "Writing",
-	recording: "Recording",
-	mixing: "Mixing",
-	mastered: "Mastered",
-	released: "Released",
-	cover: "Cover",
+	unknown: "Inconnu",
+	writing: "Écriture",
+	recording: "Enregistrement",
+	mixing: "Mixage",
+	mastered: "Masterisé",
+	released: "Sorti",
+	cover: "Reprise",
 } as const
 
 export type SongStatus = keyof typeof statusLabels

@@ -78,7 +78,7 @@ export default function SetlistsPage() {
 						<h1>Setlists</h1>
 					</div>
 				</header>
-				<div className="page-empty">Loading setlists…</div>
+				<div className="page-empty">Chargement des setlists…</div>
 			</div>
 		)
 	}
@@ -95,15 +95,14 @@ export default function SetlistsPage() {
 
 			{setlists.length === 0 ? (
 				<div className="page-empty">
-					No setlists have been added yet. Add a setlist to populate this
-					screen.
+					Aucun setlist ajouté. Ajoutez un setlist pour remplir cet écran.
 				</div>
 			) : (
 				<div className="songs-table">
 					<div className="songs-table-header">
 						<span>Setlist</span>
-						<span>Created</span>
-						<span>Songs</span>
+						<span>Créé le</span>
+						<span>Morceaux</span>
 					</div>
 
 					{setlists.map((setlist) => (
@@ -113,7 +112,7 @@ export default function SetlistsPage() {
 							key={setlist._id}>
 							<strong>{setlist.title}</strong>
 							<span>
-								{new Intl.DateTimeFormat("en-GB", {
+								{new Intl.DateTimeFormat("fr-FR", {
 									day: "numeric",
 									month: "short",
 									year: "numeric",
@@ -132,18 +131,18 @@ export default function SetlistsPage() {
 						type="button"
 						onClick={() => setShowCreateForm(true)}>
 						<Icon name="plus" className="add-action-icon" />
-						Add setlist
+						Ajouter un setlist
 					</button>
 				) : (
 					<form
 						className="detail-grid detail-grid-edit"
 						onSubmit={handleSubmit}>
 						<div className="detail-field">
-							<span>Title</span>
+							<span>Titre</span>
 							<input
 								value={title}
 								onChange={(event) => setTitle(event.target.value)}
-								placeholder="Opening night"
+								placeholder="Première soirée"
 								required
 							/>
 						</div>
@@ -162,14 +161,14 @@ export default function SetlistsPage() {
 										className="text-button"
 										onClick={selectAllSongs}
 										disabled={selectedSongIds.length === songs.length}>
-										Select all
+										Tout sélectionner
 									</button>
 									<button
 										type="button"
 										className="text-button"
 										onClick={() => setSelectedSongIds([])}
 										disabled={selectedSongIds.length === 0}>
-										Clear
+										Effacer
 									</button>
 								</div>
 							</div>
@@ -189,7 +188,7 @@ export default function SetlistsPage() {
 										<span className="checkbox-row-copy">
 											<strong>{song.title}</strong>
 											<small>
-												{song.bpm ? `${song.bpm} BPM` : "BPM unset"}
+												{song.bpm ? `${song.bpm} BPM` : "BPM non défini"}
 												{song.key ? ` · ${song.key}` : ""}
 											</small>
 										</span>
@@ -217,20 +216,20 @@ export default function SetlistsPage() {
 									className="button button-secondary"
 									onClick={applyLatestSetlist}
 									disabled={!latestSetlist}>
-									Copy latest setlist
+									Copier le dernier setlist
 								</button>
 								<div className="setlist-form-actions">
 									<button
 										type="button"
 										className="button button-secondary"
 										onClick={() => setShowCreateForm(false)}>
-										Cancel
+										Annuler
 									</button>
 									<button
 										className="button"
 										type="submit"
 										disabled={submitting}>
-										{submitting ? "Saving…" : "Create setlist"}
+										{submitting ? "Enregistrement…" : "Créer la setlist"}
 									</button>
 								</div>
 							</div>

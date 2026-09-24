@@ -11,28 +11,35 @@ const currentPath = pathname.slice(1)
 				<a
 					href="/"
 					class={currentPath === "" ? "active" : ""}
-					aria-label="Dashboard"><Icon name="home" /></a
+					aria-label="Tableau de bord"><Icon name="home" /></a
 				>
 			</li>
 			<li>
 				<a
 					href="/songs"
 					class={currentPath.includes("songs") ? "active" : ""}
-					aria-label="Songs"><Icon name="music" /></a
+					aria-label="Morceaux"><Icon name="music" /></a
 				>
 			</li>
 			<li>
 				<a
 					href="/setlists"
 					class={currentPath.includes("setlists") ? "active" : ""}
-					aria-label="Setlists"><Icon name="list" /></a
+					aria-label="Setlists"><Icon name="setlist" /></a
 				>
 			</li>
 			<li>
 				<a
 					href="/shows"
 					class={currentPath.includes("shows") ? "active" : ""}
-					aria-label="Shows"><Icon name="calendar" /></a
+					aria-label="Concerts"><Icon name="guitar" /></a
+				>
+			</li>
+			<li>
+				<a
+					href="/tasks"
+					class={currentPath.includes("tasks") ? "active" : ""}
+					aria-label="Tâches"><Icon name="tasks" /></a
 				>
 			</li>
 		</ul>

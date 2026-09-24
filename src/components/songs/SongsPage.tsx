@@ -32,7 +32,9 @@ export default function SongsPage() {
 			setTitle("")
 		} catch (error) {
 			setCreateError(
-				error instanceof Error ? error.message : "Unable to create song.",
+				error instanceof Error
+					? error.message
+					: "Impossible de créer le morceau.",
 			)
 		} finally {
 			setCreating(false)
@@ -77,10 +79,10 @@ export default function SongsPage() {
 			<div className="page">
 				<header className="page-header">
 					<div>
-						<h1>Songs</h1>
+						<h1>Morceaux</h1>
 					</div>
 				</header>
-				<div className="page-empty">Connecting…</div>
+				<div className="page-empty">Connexion…</div>
 			</div>
 		)
 	}
@@ -93,44 +95,44 @@ export default function SongsPage() {
 				</div>
 
 				<div className="page-header-actions">
-					<span className="page-count">{songs?.length ?? "—"} songs</span>
+					<span className="page-count">{songs?.length ?? "—"} morceaux</span>
 					<button
 						className="button button-secondary"
 						type="button"
 						onClick={reordering ? () => setReordering(false) : startReordering}
 						disabled={savingOrder}>
-						{reordering ? "Cancel reorder" : "Reorder songs"}
+						{reordering ? "Annuler le tri" : "Réordonner les morceaux"}
 					</button>
 				</div>
 			</header>
 
 			<form className="add-song-form" onSubmit={handleSubmit}>
 				<div>
-					<label htmlFor="new-song-title">Add a song</label>
+					<label htmlFor="new-song-title">Ajouter un morceau</label>
 					<input
 						id="new-song-title"
 						value={title}
 						onChange={(event) => setTitle(event.target.value)}
-						placeholder="Song title"
+						placeholder="Titre du morceau"
 						required
 					/>
 				</div>
 				<button className="button add-action" type="submit" disabled={creating}>
 					<Icon name="plus" className="add-action-icon" />
-					{creating ? "Adding…" : "Add song"}
+					{creating ? "Ajout…" : "Ajouter le morceau"}
 				</button>
 				{createError && <p className="form-error">{createError}</p>}
 			</form>
 
 			{songs === undefined ? (
-				<div className="page-empty">Loading…</div>
+				<div className="page-empty">Chargement…</div>
 			) : (
 				<div className="songs-table">
 					<div className="songs-table-header">
-						<span>Title</span>
-						<span>Status</span>
+						<span>Titre</span>
+						<span>Statut</span>
 						<span>BPM</span>
-						<span>Key / tuning</span>
+						<span>Tonalité / accordage</span>
 					</div>
 
 					{songs.map((song) => {
@@ -178,7 +180,7 @@ export default function SongsPage() {
 						type="button"
 						onClick={saveOrder}
 						disabled={savingOrder}>
-						{savingOrder ? "Saving…" : "Save order"}
+						{savingOrder ? "Enregistrement…" : "Enregistrer l'ordre"}
 					</button>
 				</div>
 			)}

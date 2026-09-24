@@ -15,8 +15,8 @@ function LyricViewer({
 	if (!sections.length) {
 		return (
 			<div className="lyrics-empty">
-				<p>No lyrics have been added yet.</p>
-				<p>Use Edit lyrics to add the song structure.</p>
+				<p>Aucune parole n'a encore été ajoutée.</p>
+				<p>Utilisez « Modifier les paroles » pour structurer le morceau.</p>
 			</div>
 		)
 	}
@@ -30,7 +30,7 @@ function LyricViewer({
 				) {
 					return (
 						<div className="lyrics-repeat" key={index}>
-							{section.title} <span>× repeat</span>
+							{section.title} <span>× répétition</span>
 						</div>
 					)
 				}
@@ -52,7 +52,7 @@ function LyricViewer({
 						<div className="lyric-section-title">
 							{section.title}
 
-							{section.repeatOfIndex !== undefined && <span>repeat</span>}
+							{section.repeatOfIndex !== undefined && <span>répétition</span>}
 						</div>
 
 						<div className="lyric-lines">

@@ -3,9 +3,15 @@ import { api } from "../../../convex/_generated/api"
 import { statusLabels as songStatusLabels } from "../songs/songConstants"
 
 const statusLabels: Record<string, string> = {
-	todo: "To do",
-	in_progress: "In progress",
-	done: "Done",
+	todo: "À faire",
+	in_progress: "En cours",
+	done: "Terminé",
+}
+
+const priorityLabels: Record<string, string> = {
+	low: "Basse",
+	medium: "Moyenne",
+	high: "Haute",
 }
 
 export default function Dashboard() {
@@ -37,7 +43,7 @@ export default function Dashboard() {
 		<div className="os-dashboard">
 			<header className="page-header">
 				<div>
-					<h1>Dashboard</h1>
+					<h1>Tableau de bord</h1>
 				</div>
 
 				<div className="header-date">
@@ -50,32 +56,32 @@ export default function Dashboard() {
 			</header>
 
 			<section className="focus">
-				<p className="eyebrow">CURRENT FOCUS</p>
+				<p className="eyebrow">PRIORITÉ ACTUELLE</p>
 
 				<h2>
 					{openTasks.length > 0
-						? `${openTasks.length} things need attention`
-						: "Nothing is currently assigned"}
+						? `${openTasks.length} éléments à traiter`
+						: "Rien n'est actuellement assigné"}
 				</h2>
 
 				<p>
 					{openTasks.length > 0
-						? "Work through the outstanding tasks below."
-						: "Add a task when there is something the band needs to move forward."}
+						? "Traitez les tâches en attente ci-dessous."
+						: "Ajoutez une tâche lorsque le groupe doit faire avancer un sujet."}
 				</p>
 			</section>
 
 			<div className="dashboard-grid">
-				<section className="panel">
+				<section className="panel panel-wide">
 					<div className="panel-heading">
-						<span>Tasks</span>
+						<span>Tâches</span>
 						<span>{openTasks.length}</span>
 					</div>
 
 					{tasks === undefined ? (
-						<div className="empty">Loading…</div>
+						<div className="empty">Chargement…</div>
 					) : openTasks.length === 0 ? (
-						<div className="empty">No outstanding tasks.</div>
+						<div className="empty">Aucune tâche en attente.</div>
 					) : (
 						<div className="list">
 							{openTasks.map((task) => (
@@ -86,7 +92,7 @@ export default function Dashboard() {
 									</div>
 
 									<span className={`priority ${task.priority}`}>
-										{task.priority}
+										{priorityLabels[task.priority]}
 									</span>
 								</div>
 							))}
@@ -96,7 +102,7 @@ export default function Dashboard() {
 
 				<section className="panel">
 					<div className="panel-heading">
-						<span>Latest setlist</span>
+						<span>Dernier setlist</span>
 					</div>
 
 					{latestSetlist ? (
@@ -104,7 +110,7 @@ export default function Dashboard() {
 							<strong>{latestSetlist.title}</strong>
 
 							<span>
-								{new Intl.DateTimeFormat("en-GB", {
+								{new Intl.DateTimeFormat("fr-FR", {
 									day: "numeric",
 									month: "long",
 									year: "numeric",
@@ -112,13 +118,13 @@ export default function Dashboard() {
 							</span>
 						</div>
 					) : (
-						<div className="empty">No setlists have been recorded.</div>
+						<div className="empty">Aucun setlist enregistré.</div>
 					)}
 				</section>
 
 				<section className="panel">
 					<div className="panel-heading">
-						<span>Next release</span>
+						<span>Prochaine sortie</span>
 					</div>
 
 					{nextRelease ? (
@@ -127,31 +133,31 @@ export default function Dashboard() {
 
 							<span>
 								{nextRelease.releaseDate
-									? new Intl.DateTimeFormat("en-GB", {
+									? new Intl.DateTimeFormat("fr-FR", {
 											day: "numeric",
 											month: "long",
 											year: "numeric",
 										}).format(new Date(`${nextRelease.releaseDate}T12:00:00`))
-									: "Date unknown"}
+									: "Date inconnue"}
 							</span>
 
 							<span>{nextRelease.status}</span>
 						</div>
 					) : (
 						<div className="empty">
-							No upcoming release is currently recorded.
+							Aucune sortie à venir n'est enregistrée.
 						</div>
 					)}
 				</section>
 
 				<section className="panel panel-wide">
 					<div className="panel-heading">
-						<span>Songs in progress</span>
+						<span>Morceaux en cours</span>
 						<span>{activeSongs.length}</span>
 					</div>
 
 					{songs === undefined ? (
-						<div className="empty">Loading…</div>
+						<div className="empty">Chargement…</div>
 					) : (
 						<div className="song-list">
 							{activeSongs.map((song) => (
@@ -165,17 +171,6 @@ export default function Dashboard() {
 							))}
 						</div>
 					)}
-				</section>
-
-				<section className="panel">
-					<div className="panel-heading">
-						<span>Recent activity</span>
-					</div>
-
-					<div className="empty">
-						Activity history will appear here as the OS starts recording
-						changes.
-					</div>
 				</section>
 			</div>
 		</div>

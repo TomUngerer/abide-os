@@ -8,11 +8,11 @@ const currentPath = pathname.slice(1)
 	<a href="/" class="icon"><img src={icon.src} alt="abide OS" /></a>
 	<ul>
 		<li>
-			<a class={currentPath === "" ? "active" : ""} href="/">Dashboard</a>
+			<a class={currentPath === "" ? "active" : ""} href="/">Tableau de bord</a>
 		</li>
 		<li>
 			<a class={currentPath.includes("songs") ? "active" : ""} href="/songs"
-				>Songs</a
+				>Morceaux</a
 			>
 		</li>
 		<li>
@@ -22,19 +22,15 @@ const currentPath = pathname.slice(1)
 			>
 		</li>
 		<li>
-			<a class={currentPath === "shows" ? "active" : ""} href="/shows">Shows</a>
-		</li>
-		<!-- <li>
-			<a
-				class={currentPath.includes("releases") ? "active" : ""}
-				href="/releases">Releases</a
+			<a class={currentPath === "shows" ? "active" : ""} href="/shows"
+				>Concerts</a
 			>
 		</li>
 		<li>
 			<a class={currentPath.includes("tasks") ? "active" : ""} href="/tasks"
-				>Tasks</a
+				>Tâches</a
 			>
-		</li> -->
+		</li>
 	</ul>
 </nav>
 

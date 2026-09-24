@@ -25,14 +25,14 @@ export default function SongDetail({ slug }: Props) {
 	const [saving, setSaving] = useState(false)
 
 	if (song === undefined) {
-		return <div className="page-empty">Loading…</div>
+		return <div className="page-empty">Chargement…</div>
 	}
 
 	if (song === null) {
 		return (
 			<div className="page">
 				<p className="eyebrow">404</p>
-				<h1>Song not found</h1>
+				<h1>Morceau introuvable</h1>
 			</div>
 		)
 	}
@@ -81,18 +81,18 @@ export default function SongDetail({ slug }: Props) {
 				<div className="song-detail-title-wrap">
 					<div className="page-header-actions">
 						<a className="back-link" href="/songs">
-							← SONGS
+							← MORCEAUX
 						</a>
 					</div>
 					<div className="song-hero-copy">
 						<div className="eyebrow-row">
-							<span className="eyebrow">Song profile</span>
+							<span className="eyebrow">Fiche du morceau</span>
 							{!editing ? (
 								<button
 									className="icon-button"
 									type="button"
 									onClick={beginEditing}
-									aria-label="Edit song details">
+									aria-label="Modifier les détails du morceau">
 									<Icon name="edit" className="icon-button-icon" />
 								</button>
 							) : null}
@@ -115,7 +115,7 @@ export default function SongDetail({ slug }: Props) {
 				{editing && (
 					<section className="detail-grid detail-grid-edit">
 						<div className="detail-field detail-field-full">
-							<span>Title</span>
+							<span>Titre</span>
 							<input
 								value={draft.title}
 								onChange={(event) =>
@@ -128,7 +128,7 @@ export default function SongDetail({ slug }: Props) {
 						</div>
 
 						<div className="detail-field detail-field-full">
-							<span>Release date</span>
+							<span>Date de sortie</span>
 							<input
 								type="date"
 								value={draft.releaseDate}
@@ -142,7 +142,7 @@ export default function SongDetail({ slug }: Props) {
 						</div>
 
 						<div className="detail-field">
-							<span>Status</span>
+							<span>Statut</span>
 							<select
 								value={draft.status}
 								onChange={(event) =>
@@ -174,7 +174,7 @@ export default function SongDetail({ slug }: Props) {
 						</div>
 
 						<div className="detail-field">
-							<span>Key</span>
+							<span>Tonalité</span>
 							<select
 								value={draft.key}
 								onChange={(event) =>
@@ -183,7 +183,7 @@ export default function SongDetail({ slug }: Props) {
 										key: event.target.value,
 									}))
 								}>
-								<option value="">Unknown</option>
+								<option value="">Inconnue</option>
 								{keyOptions.map((option) => (
 									<option key={option} value={option}>
 										{option}
@@ -193,7 +193,7 @@ export default function SongDetail({ slug }: Props) {
 						</div>
 
 						<div className="detail-field">
-							<span>Tuning</span>
+							<span>Accordage</span>
 							<select
 								value={draft.tuning}
 								onChange={(event) =>
@@ -202,7 +202,7 @@ export default function SongDetail({ slug }: Props) {
 										tuning: event.target.value,
 									}))
 								}>
-								<option value="">Unknown</option>
+								<option value="">Inconnu</option>
 								{tuningOptions.map((option) => (
 									<option key={option} value={option}>
 										{option}
@@ -233,14 +233,14 @@ export default function SongDetail({ slug }: Props) {
 							className="button button-secondary"
 							type="button"
 							onClick={() => setEditing(false)}>
-							Cancel
+							Annuler
 						</button>
 						<button
 							className="button"
 							type="button"
 							onClick={saveSong}
 							disabled={saving}>
-							{saving ? "Saving…" : "Save song"}
+							{saving ? "Enregistrement…" : "Enregistrer le morceau"}
 						</button>
 					</div>
 				)}

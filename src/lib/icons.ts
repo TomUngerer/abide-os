@@ -11,6 +11,10 @@ import {
 	faList,
 	faCalendar,
 	faUser,
+	faListCheck,
+	faCheck,
+	faListOl,
+	faGuitar,
 } from "@fortawesome/free-solid-svg-icons"
 
 // Add everything once
@@ -28,6 +32,10 @@ export const iconMap: Record<string, any> = {
 	list: faList,
 	calendar: faCalendar,
 	user: faUser,
+	setlist: faListOl,
+	done: faCheck,
+	tasks: faListCheck,
+	guitar: faGuitar,
 }
 
 // Helper to render directly

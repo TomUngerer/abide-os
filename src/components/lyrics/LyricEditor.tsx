@@ -61,14 +61,14 @@ function LyricEditor({
 								onChange={(event) =>
 									onUpdateSectionTitle(sectionIndex, event.target.value)
 								}
-								aria-label="Section name"
+								aria-label="Nom de la section"
 							/>
 
 							<button
 								className="icon-button button-danger editor-section-remove"
 								type="button"
-								aria-label={`Remove ${section.title || "section"}`}
-								title="Remove section"
+								aria-label={`Supprimer ${section.title || "la section"}`}
+								title="Supprimer la section"
 								onClick={() => onRemoveSection(sectionIndex)}>
 								<Icon name="trash" className="icon-button-icon" />
 							</button>
@@ -86,11 +86,11 @@ function LyricEditor({
 										: Number(event.target.value),
 								)
 							}>
-							<option value="">Original section</option>
+							<option value="">Section originale</option>
 
 							{sections.slice(0, sectionIndex).map((candidate, index) => (
 								<option value={index} key={index}>
-									Repeat: {candidate.title}
+									Répéter : {candidate.title}
 								</option>
 							))}
 						</select>
@@ -133,7 +133,7 @@ function LyricEditor({
 										onChange={(event) =>
 											onUpdateLine(sectionIndex, lineIndex, event.target.value)
 										}
-										placeholder="Lyric line…"
+										placeholder="Ligne de paroles…"
 									/>
 
 									<div className="singer-buttons">
@@ -163,7 +163,7 @@ function LyricEditor({
 								className="add-line"
 								type="button"
 								onClick={() => onAddLine(sectionIndex)}>
-								+ Add line
+								+ Ajouter une ligne
 							</button>
 						</div>
 					)}
@@ -171,7 +171,7 @@ function LyricEditor({
 			))}
 
 			<button className="add-section" type="button" onClick={onAddSection}>
-				+ Add section
+				+ Ajouter une section
 			</button>
 		</div>
 	)

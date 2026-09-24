@@ -63,7 +63,7 @@ function SongLyrics({
 				? structuredClone(sections)
 				: [
 						{
-							title: "Verse 1",
+							title: "Couplet 1",
 							position: 0,
 							lines: [
 								{
@@ -268,7 +268,7 @@ function SongLyrics({
 	if (lyrics === undefined) {
 		return (
 			<div className="page">
-				<div className="page-empty">Loading lyrics…</div>
+				<div className="page-empty">Chargement des paroles…</div>
 			</div>
 		)
 	}
@@ -278,20 +278,20 @@ function SongLyrics({
 			<div className="lyrics-header">
 				<div className="lyrics-title-wrap">
 					<div className="eyebrow-row">
-						<p className="eyebrow">LYRICS</p>
+						<p className="eyebrow">PAROLES</p>
 						{!editing && showEditButton ? (
 							<button
 								className="icon-button"
 								type="button"
 								onClick={startEditing}
-								aria-label="Edit lyrics">
+								aria-label="Modifier les paroles">
 								<Icon name="edit" className="icon-button-icon" />
 							</button>
 						) : null}
 					</div>
 					{editing && (
 						<div className="lyrics-title-row">
-							<h2>Edit lyrics</h2>
+							<h2>Modifier les paroles</h2>
 						</div>
 					)}
 				</div>
@@ -302,7 +302,7 @@ function SongLyrics({
 							className="button button-secondary"
 							type="button"
 							onClick={() => setEditing(false)}>
-							Cancel
+							Annuler
 						</button>
 
 						<button
@@ -310,7 +310,7 @@ function SongLyrics({
 							type="button"
 							onClick={save}
 							disabled={saving}>
-							{saving ? "Saving…" : "Save lyrics"}
+							{saving ? "Enregistrement…" : "Enregistrer les paroles"}
 						</button>
 					</div>
 				) : null}
@@ -336,21 +336,21 @@ function SongLyrics({
 								className={view === "full" ? "active" : ""}
 								onClick={() => setView("full")}
 								type="button">
-								Full
+								Tout
 							</button>
 
 							<button
 								className={view === "no-repeats" ? "active" : ""}
 								onClick={() => setView("no-repeats")}
 								type="button">
-								No repeats
+								Sans répétitions
 							</button>
 
 							<button
 								className={view === "practice" ? "active" : ""}
 								onClick={() => setView("practice")}
 								type="button">
-								Practice
+								Répétition
 							</button>
 							{view === "practice" && (
 								<div className="practice-switcher">

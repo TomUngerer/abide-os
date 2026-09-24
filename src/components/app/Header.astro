@@ -1,6 +1,5 @@
 ---
 import icon from "../../assets/icon.svg"
-import Avatar from "./Avatar.astro"
 import Icon from "./Icon.astro"
 
 const { back } = Astro.props
@@ -24,8 +23,197 @@ const { back } = Astro.props
 		}
 	</div>
 	<!-- <Avatar name="AB" src={icon.src} size="34" /> -->
-	<Icon name="user" />
+	<div>
+		<button
+			class="button language-switch"
+			type="button"
+			aria-label="Passer à l'anglais"
+			title="Passer à l'anglais">🇬🇧 EN</button
+		>
+	</div>
 </header>
+
+<script>
+	const translations: Record<string, string> = {
+		"Tableau de bord": "Dashboard",
+		Morceaux: "Songs",
+		Concerts: "Shows",
+		Tâches: "Tasks",
+		"PRIORITÉ ACTUELLE": "CURRENT FOCUS",
+		"Rien n'est actuellement assigné": "Nothing is currently assigned",
+		"Traitez les tâches en attente ci-dessous.":
+			"Work through the outstanding tasks below.",
+		"Ajoutez une tâche lorsque le groupe doit faire avancer un sujet.":
+			"Add a task when there is something the band needs to move forward.",
+		"Chargement…": "Loading…",
+		"Aucune tâche en attente.": "No outstanding tasks.",
+		"Dernier setlist": "Latest setlist",
+		"Aucun setlist enregistré.": "No setlists have been recorded.",
+		"Prochaine sortie": "Next release",
+		"Date inconnue": "Date unknown",
+		"Aucune sortie à venir n'est enregistrée.":
+			"No upcoming release is currently recorded.",
+		"Morceaux en cours": "Songs in progress",
+		"Morceau introuvable": "Song not found",
+		"Fiche du morceau": "Song profile",
+		"Modifier les détails du morceau": "Edit song details",
+		Morceau: "Song",
+		Titre: "Title",
+		"Date de sortie": "Release date",
+		Statut: "Status",
+		Tonalité: "Key",
+		Accordage: "Tuning",
+		Inconnue: "Unknown",
+		Inconnu: "Unknown",
+		Annuler: "Cancel",
+		"Enregistrement…": "Saving…",
+		"Enregistrer le morceau": "Save song",
+		Connexion: "Connecting…",
+		"Réordonner les morceaux": "Reorder songs",
+		"Annuler le tri": "Cancel reorder",
+		"Ajouter un morceau": "Add a song",
+		"Titre du morceau": "Song title",
+		"Ajout…": "Adding…",
+		"Ajouter le morceau": "Add song",
+		"Tonalité / accordage": "Key / tuning",
+		"Enregistrer l'ordre": "Save order",
+		PAROLES: "LYRICS",
+		"Modifier les paroles": "Edit lyrics",
+		"Enregistrer les paroles": "Save lyrics",
+		Tout: "Full",
+		"Sans répétitions": "No repeats",
+		Répétition: "Practice",
+		"Aucune parole n'a encore été ajoutée.": "No lyrics have been added yet.",
+		"Utilisez « Modifier les paroles » pour structurer le morceau.":
+			"Use Edit lyrics to add the song structure.",
+		"Section originale": "Original section",
+		"Ajouter une ligne": "Add line",
+		"Ajouter une section": "Add section",
+		"Supprimer la section": "Remove section",
+		"Chargement des paroles…": "Loading lyrics…",
+		"Chargement des setlists…": "Loading setlists…",
+		"Setlist introuvable": "Setlist not found",
+		"Fiche du setlist": "Setlist profile",
+		"Modifier la setlist": "Edit setlist",
+		"Supprimer la setlist": "Delete setlist",
+		"Répéter la setlist": "Practice setlist",
+		"Quitter la répétition": "Exit practice",
+		"Enregistrer les modifications": "Save changes",
+		"Répétition en cours": "Now practicing",
+		"Morceau précédent": "Previous song",
+		"Morceau suivant": "Next song",
+		"Morceau inconnu": "Unknown song",
+		"Tonalité non définie": "Key unset",
+		"Accordage non défini": "Tuning unset",
+		"Ajouter un setlist": "Add setlist",
+		"Aucun setlist ajouté. Ajoutez un setlist pour remplir cet écran.":
+			"No setlists have been added yet. Add a setlist to populate this screen.",
+		"Créé le": "Created",
+		"Morceaux du setlist": "Setlist songs",
+		"Tout sélectionner": "Select all",
+		Effacer: "Clear",
+		"BPM non défini": "BPM unset",
+		"Copier le dernier setlist": "Copy latest setlist",
+		"Créer la setlist": "Create setlist",
+		"Chargement des concerts…": "Loading shows…",
+		"Nom du concert": "Show title",
+		Lieu: "Venue",
+		"Créer le concert": "Create show",
+		"Aucun concert ajouté.": "No shows have been added yet.",
+		Concert: "Show",
+		"À confirmer": "TBA",
+		"Supprimer le concert": "Delete show",
+		"Chargement des tâches…": "Loading tasks…",
+		Tâche: "Task",
+		"Préparer le guide vocal": "Prepare vocal guide",
+		Priorité: "Priority",
+		"Date limite": "Due date",
+		"Ajouter la tâche": "Add task",
+		"Tâches ouvertes": "Open tasks",
+		"Aucune tâche ouverte.": "No open tasks.",
+		"Échéance :": "Due:",
+		Terminer: "Complete",
+		"Terminer la tâche": "Complete task",
+		"Supprimer la tâche": "Remove task",
+		Terminées: "Completed",
+		"Aucune tâche terminée pour le moment.": "No completed tasks yet.",
+		Basse: "Low",
+		Moyenne: "Medium",
+		Haute: "High",
+		"À faire": "To do",
+		"En cours": "In progress",
+		Terminé: "Done",
+		Répéter: "Repeat",
+		répétition: "repeat",
+	}
+
+	const localeKey = "abide-os-locale"
+	const currentLocale = localStorage.getItem(localeKey) ?? "fr"
+	const switcher = document.querySelector<HTMLButtonElement>(".language-switch")
+
+	function translateNode(node: Node) {
+		if (node.nodeType !== Node.TEXT_NODE) return
+		const value = node.textContent?.trim()
+		if (!value) return
+
+		let translated = translations[value]
+		if (!translated) {
+			translated = value
+				.replace(/^(\d+) morceaux$/, "$1 songs")
+				.replace(/^(\d+) ouvertes$/, "$1 open")
+				.replace(/^Créé le\s+/, "Created ")
+				.replace(/^Échéance :\s*/, "Due: ")
+		}
+		if (translated !== value)
+			node.textContent =
+				node.textContent?.replace(value, translated) ?? translated
+	}
+
+	function translatePage() {
+		if (currentLocale !== "en") return
+		const walker = document.createTreeWalker(
+			document.body,
+			NodeFilter.SHOW_TEXT,
+		)
+		let node = walker.nextNode()
+		while (node) {
+			translateNode(node)
+			node = walker.nextNode()
+		}
+		for (const element of document.querySelectorAll<HTMLElement>(
+			"[aria-label], [title]",
+		)) {
+			for (const attribute of ["aria-label", "title"]) {
+				const value = element.getAttribute(attribute)
+				if (value && translations[value])
+					element.setAttribute(attribute, translations[value])
+			}
+		}
+	}
+
+	if (currentLocale === "en") {
+		document.documentElement.lang = "en"
+		translatePage()
+		new MutationObserver(translatePage).observe(document.body, {
+			childList: true,
+			subtree: true,
+		})
+	}
+
+	if (switcher) {
+		switcher.textContent = currentLocale === "en" ? "🇫🇷 FR" : "🇬🇧 EN"
+		switcher.setAttribute(
+			"aria-label",
+			currentLocale === "en" ? "Passer au français" : "Switch to English",
+		)
+		switcher.title =
+			currentLocale === "en" ? "Passer au français" : "Switch to English"
+		switcher.addEventListener("click", () => {
+			localStorage.setItem(localeKey, currentLocale === "en" ? "fr" : "en")
+			window.location.reload()
+		})
+	}
+</script>
 
 <style>
 	#header {
