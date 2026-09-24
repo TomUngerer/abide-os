@@ -354,6 +354,23 @@
 	text-transform: uppercase;
 }
 
+.sortable-table-header {
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	letter-spacing: inherit;
+	text-align: left;
+	text-transform: inherit;
+	cursor: pointer;
+}
+
+.sortable-table-header:hover,
+.sortable-table-header:focus-visible {
+	color: var(--text);
+}
+
 .song-table-row {
 	border-bottom: 1px solid var(--border);
 	color: var(--text);

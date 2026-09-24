@@ -8,14 +8,13 @@ import { statusLabels } from "./songConstants"
 export default function SongsPage() {
 	const songs = useQuery(api.songs.list)
 	const createSong = useMutation(api.songs.create)
-	const updateOrder = useMutation(api.songs.updateOrder)
 	const [title, setTitle] = useState("")
 	const [creating, setCreating] = useState(false)
 	const [createError, setCreateError] = useState("")
 	const [selectedSlug, setSelectedSlug] = useState<string | null>(null)
-	const [reordering, setReordering] = useState(false)
-	const [orderDraft, setOrderDraft] = useState<string[]>([])
-	const [savingOrder, setSavingOrder] = useState(false)
+	const [sortKey, setSortKey] = useState<
+		"title" | "status" | "bpm" | "details"
+	>("title")
 
 	useEffect(() => {
 		setSelectedSlug(new URLSearchParams(window.location.search).get("slug"))
@@ -41,35 +40,6 @@ export default function SongsPage() {
 		}
 	}
 
-	const startReordering = () => {
-		setOrderDraft([])
-		setReordering(true)
-	}
-
-	const toggleOrderSong = (songId: string) => {
-		setOrderDraft((current) =>
-			current.includes(songId)
-				? current.filter((id) => id !== songId)
-				: [...current, songId],
-		)
-	}
-
-	const saveOrder = async () => {
-		setSavingOrder(true)
-		try {
-			if (songs === undefined || orderDraft.length === 0) return
-			const remainingSongIds = songs
-				.filter((song) => !orderDraft.includes(song._id))
-				.map((song) => song._id)
-			await updateOrder({
-				orderedSongIds: [...orderDraft, ...remainingSongIds] as any,
-			})
-			setReordering(false)
-		} finally {
-			setSavingOrder(false)
-		}
-	}
-
 	if (selectedSlug) {
 		return <SongDetail slug={selectedSlug} />
 	}
@@ -91,19 +61,10 @@ export default function SongsPage() {
 		<div className="page">
 			<header className="page-header">
 				<div>
-					<h1>Songs</h1>
+					<h1>Morceaux</h1>
 				</div>
 
-				<div className="page-header-actions">
-					<span className="page-count">{songs?.length ?? "—"} morceaux</span>
-					<button
-						className="button button-secondary"
-						type="button"
-						onClick={reordering ? () => setReordering(false) : startReordering}
-						disabled={savingOrder}>
-						{reordering ? "Annuler le tri" : "Réordonner les morceaux"}
-					</button>
-				</div>
+				<span className="page-count">{songs?.length ?? "—"} morceaux</span>
 			</header>
 
 			<form className="add-song-form" onSubmit={handleSubmit}>
@@ -129,59 +90,68 @@ export default function SongsPage() {
 			) : (
 				<div className="songs-table">
 					<div className="songs-table-header">
-						<span>Titre</span>
-						<span>Statut</span>
-						<span>BPM</span>
-						<span>Tonalité / accordage</span>
+						<button
+							className="sortable-table-header"
+							type="button"
+							onClick={() => setSortKey("title")}
+							aria-label="Trier par titre">
+							Titre
+						</button>
+						<button
+							className="sortable-table-header"
+							type="button"
+							onClick={() => setSortKey("status")}
+							aria-label="Trier par statut">
+							Statut
+						</button>
+						<button
+							className="sortable-table-header"
+							type="button"
+							onClick={() => setSortKey("bpm")}
+							aria-label="Trier par BPM">
+							BPM
+						</button>
+						<button
+							className="sortable-table-header"
+							type="button"
+							onClick={() => setSortKey("details")}
+							aria-label="Trier par tonalité et accordage">
+							Tonalité / accordage
+						</button>
 					</div>
 
-					{songs.map((song) => {
-						const order = orderDraft.indexOf(song._id)
-						const row = (
-							<>
-								<strong>
-									{reordering && order >= 0
-										? `${order + 1}. ${song.title}`
-										: song.title}
-								</strong>
+					{[...songs]
+						.sort((a, b) => {
+							if (sortKey === "bpm") return (a.bpm ?? -1) - (b.bpm ?? -1)
+							const aValue =
+								sortKey === "title"
+									? a.title
+									: sortKey === "status"
+										? statusLabels[a.status]
+										: [a.key, a.tuning].filter(Boolean).join(" / ")
+							const bValue =
+								sortKey === "title"
+									? b.title
+									: sortKey === "status"
+										? statusLabels[b.status]
+										: [b.key, b.tuning].filter(Boolean).join(" / ")
+							return aValue.localeCompare(bValue, "fr", {
+								sensitivity: "base",
+							})
+						})
+						.map((song) => (
+							<a
+								className="song-table-row"
+								href={`/songs?slug=${encodeURIComponent(song.slug)}`}
+								key={song._id}>
+								<strong>{song.title}</strong>
 								<span>{statusLabels[song.status]}</span>
 								<span>{song.bpm ?? "—"}</span>
 								<span>
 									{[song.key, song.tuning].filter(Boolean).join(" / ") || "—"}
 								</span>
-							</>
-						)
-
-						return reordering ? (
-							<button
-								className={`song-table-row song-order-button ${order >= 0 ? "selected" : ""}`}
-								key={song._id}
-								type="button"
-								onClick={() => toggleOrderSong(song._id)}>
-								{row}
-							</button>
-						) : (
-							<a
-								className="song-table-row"
-								href={`/songs?slug=${encodeURIComponent(song.slug)}`}
-								key={song._id}>
-								{row}
 							</a>
-						)
-					})}
-				</div>
-			)}
-
-			{reordering && (
-				<div className="detail-actions song-order-actions">
-					<span>{orderDraft.length} selected in order</span>
-					<button
-						className="button"
-						type="button"
-						onClick={saveOrder}
-						disabled={savingOrder}>
-						{savingOrder ? "Enregistrement…" : "Enregistrer l'ordre"}
-					</button>
+						))}
 				</div>
 			)}
 		</div>
