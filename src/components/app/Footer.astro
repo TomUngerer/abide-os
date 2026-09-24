@@ -31,7 +31,7 @@ const currentPath = pathname.slice(1)
 			<li>
 				<a
 					href="/shows"
-					class={currentPath === "shows" ? "active" : ""}
+					class={currentPath.includes("shows") ? "active" : ""}
 					aria-label="Shows"><Icon name="calendar" /></a
 				>
 			</li>

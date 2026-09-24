@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import { singerLabels, type Section, type Singer } from "./types"
 
 function LyricEditor({
@@ -11,7 +12,7 @@ function LyricEditor({
 }: {
 	sections: Section[]
 	onAddSection: () => void
-	onAddLine: (sectionIndex: number) => void
+	onAddLine: (sectionIndex: number, lineIndex?: number) => void
 	onUpdateSectionTitle: (index: number, title: string) => void
 	onUpdateLine: (sectionIndex: number, lineIndex: number, text: string) => void
 	onToggleSinger: (
@@ -21,6 +22,25 @@ function LyricEditor({
 	) => void
 	onSetRepeat: (index: number, repeatOfIndex: number | undefined) => void
 }) {
+	const pendingFocus = useRef<{
+		sectionIndex: number
+		lineIndex: number
+	} | null>(null)
+
+	useEffect(() => {
+		if (!pendingFocus.current) return
+
+		const { sectionIndex, lineIndex } = pendingFocus.current
+		const input = document.querySelector<HTMLInputElement>(
+			`[data-lyric-section="${sectionIndex}"][data-lyric-line="${lineIndex}"]`,
+		)
+
+		if (!input) return
+
+		input.focus()
+		pendingFocus.current = null
+	}, [sections])
+
 	return (
 		<div className="lyrics-editor">
 			{sections.map((section, sectionIndex) => (
@@ -61,7 +81,19 @@ function LyricEditor({
 							{section.lines.map((line, lineIndex) => (
 								<div className="editor-line" key={lineIndex}>
 									<input
+										data-lyric-section={sectionIndex}
+										data-lyric-line={lineIndex}
 										value={line.text}
+										onKeyDown={(event) => {
+											if (event.key !== "Enter") return
+
+											event.preventDefault()
+											pendingFocus.current = {
+												sectionIndex,
+												lineIndex: lineIndex + 1,
+											}
+											onAddLine(sectionIndex, lineIndex)
+										}}
 										onChange={(event) =>
 											onUpdateLine(sectionIndex, lineIndex, event.target.value)
 										}

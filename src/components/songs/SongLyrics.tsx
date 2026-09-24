@@ -95,20 +95,23 @@ function SongLyrics({
 		])
 	}
 
-	function addLine(sectionIndex: number) {
+	function addLine(sectionIndex: number, lineIndex?: number) {
 		setDraft((current) =>
 			current.map((section, index) =>
 				index === sectionIndex
 					? {
 							...section,
-							lines: [
-								...section.lines,
-								{
+							lines: (() => {
+								const insertAt =
+									lineIndex === undefined ? section.lines.length : lineIndex + 1
+								const lines = [...section.lines]
+								lines.splice(insertAt, 0, {
 									text: "",
-									position: section.lines.length,
+									position: insertAt,
 									singers: ["tom"],
-								},
-							],
+								})
+								return lines.map((line, position) => ({ ...line, position }))
+							})(),
 						}
 					: section,
 			),
