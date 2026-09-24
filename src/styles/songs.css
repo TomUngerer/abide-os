@@ -121,7 +121,7 @@
 
 .icon-button-icon {
 	display: block;
-	width: 0.9rem;
+	width: auto;
 	height: 0.9rem;
 }
 
@@ -331,13 +331,18 @@
 
 .setlist-songs-table .songs-table-header,
 .setlist-songs-table .song-table-row {
-	grid-template-columns: 3rem minmax(0, 1fr) 8rem 3.5rem;
+	grid-template-columns: 3.5rem 3rem minmax(0, 1fr);
+}
+
+.setlist-songs-table {
+	width: 100%;
+	max-width: 720px;
 }
 
 .setlist-songs-table .songs-table-header > :first-child,
 .setlist-songs-table .song-table-row > :first-child,
-.setlist-songs-table .songs-table-header > :last-child,
-.setlist-songs-table .song-table-row > :last-child {
+.setlist-songs-table .songs-table-header > :nth-child(2),
+.setlist-songs-table .song-table-row > :nth-child(2) {
 	text-align: center;
 }
 
@@ -397,6 +402,7 @@
 	font-size: 1.1rem;
 	letter-spacing: 0.08em;
 	cursor: grab;
+	touch-action: none;
 	user-select: none;
 	transition:
 		color 0.2s ease,
@@ -658,7 +664,7 @@
 
 	.songs-table-header,
 	.song-table-row {
-		min-width: 620px;
+		min-width: 400px;
 	}
 
 	.song-checklist {

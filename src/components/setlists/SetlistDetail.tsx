@@ -3,6 +3,7 @@ import {
 	DragOverlay,
 	KeyboardSensor,
 	PointerSensor,
+	TouchSensor,
 	closestCenter,
 	useSensor,
 	useSensors,
@@ -59,9 +60,6 @@ function SortableSongRow({ row, index }: SortableSongRowProps) {
 				transition,
 			}}
 			{...attributes}>
-			<strong>{index + 1}</strong>
-			<strong>{row.song?.title ?? "Unknown song"}</strong>
-			<span>{row.song?.status ?? "unknown"}</span>
 			<button
 				className="setlist-drag-handle"
 				type="button"
@@ -69,6 +67,8 @@ function SortableSongRow({ row, index }: SortableSongRowProps) {
 				{...listeners}>
 				⋮⋮
 			</button>
+			<strong>{index + 1}</strong>
+			<strong>{row.song?.title ?? "Unknown song"}</strong>
 		</div>
 	)
 }
@@ -92,6 +92,9 @@ export default function SetlistDetail({ slug }: Props) {
 	})
 	const sensors = useSensors(
 		useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+		useSensor(TouchSensor, {
+			activationConstraint: { delay: 180, tolerance: 6 },
+		}),
 		useSensor(KeyboardSensor, {
 			coordinateGetter: sortableKeyboardCoordinates,
 		}),
@@ -407,10 +410,9 @@ export default function SetlistDetail({ slug }: Props) {
 				onDragEnd={handleDragEnd}>
 				<section className="songs-table setlist-songs-table">
 					<div className="songs-table-header">
+						<span>Order</span>
 						<span>#</span>
 						<span>Song</span>
-						<span>Status</span>
-						<span>Order</span>
 					</div>
 
 					<SortableContext

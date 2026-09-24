@@ -1,9 +1,11 @@
 import { useEffect, useRef } from "react"
+import Icon from "../app/Icon"
 import { singerLabels, type Section, type Singer } from "./types"
 
 function LyricEditor({
 	sections,
 	onAddSection,
+	onRemoveSection,
 	onAddLine,
 	onPasteLines,
 	onUpdateSectionTitle,
@@ -13,6 +15,7 @@ function LyricEditor({
 }: {
 	sections: Section[]
 	onAddSection: () => void
+	onRemoveSection: (sectionIndex: number) => void
 	onAddLine: (sectionIndex: number, lineIndex?: number) => void
 	onPasteLines: (
 		sectionIndex: number,
@@ -52,13 +55,24 @@ function LyricEditor({
 			{sections.map((section, sectionIndex) => (
 				<div className="editor-section" key={sectionIndex}>
 					<div className="editor-section-header">
-						<input
-							value={section.title}
-							onChange={(event) =>
-								onUpdateSectionTitle(sectionIndex, event.target.value)
-							}
-							aria-label="Section name"
-						/>
+						<div className="editor-section-title-row">
+							<input
+								value={section.title}
+								onChange={(event) =>
+									onUpdateSectionTitle(sectionIndex, event.target.value)
+								}
+								aria-label="Section name"
+							/>
+
+							<button
+								className="icon-button button-danger editor-section-remove"
+								type="button"
+								aria-label={`Remove ${section.title || "section"}`}
+								title="Remove section"
+								onClick={() => onRemoveSection(sectionIndex)}>
+								<Icon name="trash" className="icon-button-icon" />
+							</button>
+						</div>
 
 						<select
 							value={

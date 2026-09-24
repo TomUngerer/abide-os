@@ -95,6 +95,34 @@ function SongLyrics({
 		])
 	}
 
+	function removeSection(sectionIndex: number) {
+		setDraft((current) =>
+			current
+				.filter((_, index) => index !== sectionIndex)
+				.map((section) => {
+					if (section.repeatOfIndex === undefined) return section
+
+					if (section.repeatOfIndex === sectionIndex) {
+						return {
+							...section,
+							repeatOfIndex: undefined,
+							lines: section.lines.length
+								? section.lines
+								: [{ text: "", position: 0, singers: ["tom"] }],
+						}
+					}
+
+					return {
+						...section,
+						repeatOfIndex:
+							section.repeatOfIndex > sectionIndex
+								? section.repeatOfIndex - 1
+								: section.repeatOfIndex,
+					}
+				}),
+		)
+	}
+
 	function addLine(sectionIndex: number, lineIndex?: number) {
 		setDraft((current) =>
 			current.map((section, index) =>
@@ -261,9 +289,11 @@ function SongLyrics({
 							</button>
 						) : null}
 					</div>
-					<div className="lyrics-title-row">
-						<h2>{editing ? "Edit lyrics" : ""}</h2>
-					</div>
+					{editing && (
+						<div className="lyrics-title-row">
+							<h2>Edit lyrics</h2>
+						</div>
+					)}
 				</div>
 
 				{editing ? (
@@ -290,6 +320,7 @@ function SongLyrics({
 				<LyricEditor
 					sections={draft}
 					onAddSection={addSection}
+					onRemoveSection={removeSection}
 					onAddLine={addLine}
 					onPasteLines={pasteLines}
 					onUpdateSectionTitle={updateSectionTitle}

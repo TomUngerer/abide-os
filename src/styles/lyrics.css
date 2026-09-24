@@ -210,11 +210,22 @@
 
 .editor-section-header {
 	display: grid;
-	grid-template-columns: 1fr 220px;
+	grid-template-columns: minmax(0, 1fr) 220px;
 	gap: 12px;
 	padding: 12px;
 	border-bottom: 1px solid var(--border);
 	background: var(--surface);
+}
+
+.editor-section-title-row {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+	gap: 8px;
+}
+
+.editor-section-title-row input {
+	min-width: 0;
 }
 
 .editor-section-header input,
@@ -239,6 +250,12 @@
 .editor-section-header select:focus,
 .editor-line input:focus {
 	border-color: var(--muted);
+}
+
+.editor-section-remove {
+	width: 40px;
+	height: 40px;
+	border-radius: 0;
 }
 
 .editor-lines {
