@@ -31,16 +31,20 @@ export function getVocalistClass(singers: Singer[]) {
 	}
 }
 
-export function practiceLine(text: string, mode: "start" | "end") {
+export function practiceLine(
+	text: string,
+	mode: "start" | "end",
+	wordCount: 2 | 3 | 4,
+) {
 	const words = text.trim().split(/\s+/)
 
-	if (words.length <= 2) {
+	if (words.length <= wordCount) {
 		return text
 	}
 
 	if (mode === "start") {
-		return `${words.slice(0, 2).join(" ")}…`
+		return `${words.slice(0, wordCount).join(" ")}…`
 	}
 
-	return `…${words.slice(-2).join(" ")}`
+	return `…${words.slice(-wordCount).join(" ")}`
 }

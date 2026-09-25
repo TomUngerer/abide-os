@@ -95,8 +95,13 @@
 	color: var(--text);
 }
 
-.practice-switcher {
-	margin-left: 0.5rem;
+.practice-controls {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.practice-word-count {
 	border-left: 1px solid var(--border);
 }
 

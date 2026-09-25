@@ -5,11 +5,13 @@ function LyricViewer({
 	sections,
 	view,
 	practiceMode,
+	practiceWordCount,
 	singerFilter,
 }: {
 	sections: Section[]
 	view: ViewMode
 	practiceMode: "start" | "end"
+	practiceWordCount: 2 | 3 | 4
 	singerFilter: SingerFilter
 }) {
 	if (!sections.length) {
@@ -61,7 +63,7 @@ function LyricViewer({
 									<div
 										className={`lyric-text vocalist-${getVocalistClass(line.singers)}`}>
 										{view === "practice"
-											? practiceLine(line.text, practiceMode)
+											? practiceLine(line.text, practiceMode, practiceWordCount)
 											: line.text}
 									</div>
 								</div>

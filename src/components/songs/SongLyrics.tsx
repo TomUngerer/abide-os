@@ -29,6 +29,7 @@ function SongLyrics({
 	const [view, setView] = useState<ViewMode>("full")
 	const [singerFilter, setSingerFilter] = useState<SingerFilter>("all")
 	const [practiceMode, setPracticeMode] = useState<"start" | "end">("start")
+	const [practiceWordCount, setPracticeWordCount] = useState<2 | 3 | 4>(2)
 	const [editing, setEditing] = useState(false)
 	const [draft, setDraft] = useState<Section[]>([])
 	const [saving, setSaving] = useState(false)
@@ -352,8 +353,11 @@ function SongLyrics({
 								type="button">
 								Répétition
 							</button>
-							{view === "practice" && (
-								<div className="practice-switcher">
+						</div>
+
+						{view === "practice" && (
+							<div className="practice-controls">
+								<div className="view-switcher practice-switcher">
 									<button
 										className={practiceMode === "start" ? "active" : ""}
 										onClick={() => setPracticeMode("start")}
@@ -368,8 +372,23 @@ function SongLyrics({
 										<Icon name="alignRight" />
 									</button>
 								</div>
-							)}
-						</div>
+
+								<div className="view-switcher practice-word-count">
+									{([2, 3, 4] as const).map((wordCount) => (
+										<button
+											key={wordCount}
+											className={
+												practiceWordCount === wordCount ? "active" : ""
+											}
+											onClick={() => setPracticeWordCount(wordCount)}
+											aria-label={`Afficher ${wordCount} mots`}
+											type="button">
+											{wordCount}
+										</button>
+									))}
+								</div>
+							</div>
+						)}
 
 						<div className="view-switcher singer-filter-switcher">
 							<button
@@ -401,6 +420,7 @@ function SongLyrics({
 						sections={sections}
 						view={view}
 						practiceMode={practiceMode}
+						practiceWordCount={practiceWordCount}
 						singerFilter={singerFilter}
 					/>
 				</>
